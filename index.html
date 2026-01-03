@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacked by Crpth0nX | IndoClaySec</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/ICS251220/ICS/refs/heads/main/IndoClaySec.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Eater&family=UnifrakturMaguntia&family=Cinzel+Decorative:wght@700&family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #c0c0c0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Cinzel Decorative', cursive;
+            position: relative;
+        }
+
+        /* Efek TV rusak (noise dan scanlines) */
+        .tv-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.03;
+            background: 
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+        }
+
+        .tv-effect::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%),
+                repeating-linear-gradient(0deg, transparent 0px, rgba(0, 30, 255, 0.1) 1px, transparent 2px, transparent 3px);
+            animation: scanlines 10s linear infinite;
+        }
+
+        .tv-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            animation: noise 0.2s infinite;
+        }
+
+        @keyframes scanlines {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 10px;
+            }
+        }
+
+        @keyframes noise {
+            0% { transform: translate(0,0) }
+            10% { transform: translate(-1%,-1%) }
+            20% { transform: translate(-2%,1%) }
+            30% { transform: translate(1%,-2%) }
+            40% { transform: translate(-1%,3%) }
+            50% { transform: translate(-2%,1%) }
+            60% { transform: translate(3%,1%) }
+            70% { transform: translate(1%,-2%) }
+            80% { transform: translate(-1%,1%) }
+            90% { transform: translate(2%,2%) }
+            100% { transform: translate(1%,0) }
+        }
+
+        /* Container utama */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header dengan logo - POLOS tanpa efek */
+        .header {
+            margin-top: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-logo {
+            width: 200px;
+            height: auto;
+            object-fit: contain;
+            /* HAPUS semua efek filter dan animasi merah */
+        }
+
+        /* Judul utama - UKURAN DIKECILKAN */
+        .main-title {
+            font-size: 1.8rem; /* Diperkecil dari 4rem */
+            font-weight: 700;
+            margin-top: 15px;
+            text-align: center;
+            letter-spacing: 2px;
+            color: #8B0000;
+            text-shadow: 0 0 5px #8B0000;
+            font-family: 'UnifrakturMaguntia', cursive;
+            animation: title-flicker 3s infinite alternate;
+            position: relative;
+        }
+
+        @keyframes title-flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 0 0 5px #8B0000;
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                text-shadow: 0 0 3px #8B0000;
+                opacity: 0.8;
+            }
+        }
+
+        /* Animasi team - UKURAN DIKECILKAN dan berkedip */
+        .team-container {
+            margin-top: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .team-text {
+            font-size: 1.6rem; /* Diperkecil dari 3.5rem */
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Creepster', cursive;
+            color: #00FF00;
+            text-shadow: 0 0 5px #00FF00;
+            padding: 10px 20px;
+            animation: blink 1.5s infinite alternate, glitch-color 5s infinite;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes glitch-color {
+            0% { color: #00FF00; }
+            25% { color: #FF0000; }
+            50% { color: #00FFFF; }
+            75% { color: #FFFF00; }
+            100% { color: #00FF00; }
+        }
+
+        /* Deskripsi - UKURAN STANDARD */
+        .description {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 1.4rem;
+            line-height: 1.5;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 5px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+            font-family: 'MedievalSharp', cursive;
+            color: #C0C0C0;
+            animation: description-flicker 5s infinite;
+        }
+
+        @keyframes description-flicker {
+            0%, 85%, 87%, 89%, 91%, 93%, 95%, 97%, 100% {
+                opacity: 1;
+            }
+            86%, 88%, 90%, 92%, 94%, 96%, 98% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 1rem;
+            color: #666;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            width: 100%;
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        /* Audio hidden player */
+        .audio-container {
+            display: none;
+        }
+
+        /* Efek CRT Monitor */
+        .crt::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(18, 16, 16, 0.1);
+            opacity: 0.3;
+            z-index: 2;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.27861; }
+            5% { opacity: 0.34769; }
+            10% { opacity: 0.23604; }
+            15% { opacity: 0.90626; }
+            20% { opacity: 0.18128; }
+            25% { opacity: 0.83891; }
+            30% { opacity: 0.65583; }
+            35% { opacity: 0.67807; }
+            40% { opacity: 0.26559; }
+            45% { opacity: 0.84693; }
+            50% { opacity: 0.96019; }
+            55% { opacity: 0.08594; }
+            60% { opacity: 0.20313; }
+            65% { opacity: 0.71988; }
+            70% { opacity: 0.53455; }
+            75% { opacity: 0.37288; }
+            80% { opacity: 0.71428; }
+            85% { opacity: 0.70419; }
+            90% { opacity: 0.7003; }
+            95% { opacity: 0.36108; }
+            100% { opacity: 0.24387; }
+        }
+
+        /* Efek static pada teks */
+        .static-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .static-text::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0,0,0,0.5) 50%);
+            background-size: 100% 4px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 1.6rem;
+            }
+            
+            .team-text {
+                font-size: 1.4rem;
+                letter-spacing: 2px;
+                padding: 8px 15px;
+            }
+            
+            .description {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+            
+            .header-logo {
+                width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.4rem;
+            }
+            
+            .team-text {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+                padding: 5px 10px;
+            }
+            
+            .description {
+                font-size: 1rem;
+                padding: 12px;
+            }
+            
+            .header-logo {
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+<body class="crt">
+    <!-- Efek TV rusak -->
+    <div class="tv-effect"></div>
+    
+    <div class="container">
+        <header class="header">
+            <!-- GAMBAR POLOS tanpa efek -->
+            <img src="https://raw.githubusercontent.com/ICS251220/ICS/refs/heads/main/as.gif" 
+                 alt="IndoClaySec Logo" 
+                 class="header-logo">
+        </header>
+        
+        <!-- Judul dengan ukuran lebih kecil -->
+        <h1 class="main-title static-text">Hacked by Crypth0nX</h1>
+        
+        <!-- Audio autoplay tanpa kontrol -->
+        <div class="audio-container">
+            <audio id="bgMusic" autoplay loop>
+                <source src="https://h.top4top.io/m_36531rn6b1.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        
+        <!-- Deskripsi dengan ukuran yang sama -->
+        <div class="description static-text">
+            Hello everyone, we are IndoclaySec, present in the dark world to destroy India, the Zionists and also countries that support Israel and Nato.
+        </div>
+        
+        <footer class="footer">
+            <p>&copy; 2025 <span style="color:#8B0000;">IndoClaySec Team</span> | Hacked by <span style="color:#8B0000;">Crypth0nX</span></p>
+            <p style="font-size:0.8rem; margin-top:5px;">Your Site Is Hacked! Fuck</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fungsi untuk memutar audio otomatis
+        function playAudio() {
+            const audio = document.getElementById('bgMusic');
+            
+            // Set volume (0.0 - 1.0)
+            audio.volume = 0.3;
+            
+            // Coba putar audio
+            const playPromise = audio.play();
+            
+            // Handle autoplay restrictions
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("Audio berhasil diputar otomatis");
+                }).catch(error => {
+                    console.log("Autoplay diblokir, menunggu interaksi pengguna");
+                    
+                    // Coba lagi setelah interaksi pengguna
+                    document.body.addEventListener('click', function playAudioOnClick() {
+                        audio.play();
+                        document.body.removeEventListener('click', playAudioOnClick);
+                    }, { once: true });
+                    
+                    // Atau tampilkan pesan untuk mengklik halaman
+                    const clickMsg = document.createElement('div');
+                    clickMsg.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        right: 20px;
+                        background: rgba(50, 50, 50, 0.9);
+                        color: #8B0000;
+                        padding: 8px 12px;
+                        border-radius: 5px;
+                        font-family: 'Cinzel Decorative', cursive;
+                        font-size: 10px;
+                        z-index: 1000;
+                        border: 1px solid #333;
+                    `;
+                    clickMsg.textContent = "CLICK TO ACTIVATE AUDIO";
+                    document.body.appendChild(clickMsg);
+                    
+                    setTimeout(() => {
+                        if (clickMsg.parentNode) {
+                            clickMsg.parentNode.removeChild(clickMsg);
+                        }
+                    }, 5000);
+                });
+            }
+        }
+        
+        // Fungsi untuk efek TV noise intensitas random
+        function randomTVNoise() {
+            const tvEffect = document.querySelector('.tv-effect');
+            setInterval(() => {
+                const randomOpacity = 0.01 + Math.random() * 0.04;
+                tvEffect.style.opacity = randomOpacity;
+            }, 300);
+        }
+        
+        // Efek ketik untuk semua teks
+        function typeWriterEffect() {
+            const elements = document.querySelectorAll('.main-title, .team-text, .description');
+            
+            elements.forEach(element => {
+                const originalText = element.textContent;
+                element.textContent = '';
+                let i = 0;
+                
+                function typeWriter() {
+                    if (i < originalText.length) {
+                        element.textContent += originalText.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 30);
+                    }
+                }
+                
+                // Delay berbeda untuk setiap elemen
+                let delay = 0;
+                if (element.classList.contains('main-title')) delay = 500;
+                else if (element.classList.contains('team-text')) delay = 1500;
+                else if (element.classList.contains('description')) delay = 2500;
+                
+                setTimeout(typeWriter, delay);
+            });
+        }
+        
+        // Efek glitch random pada teks team
+        function randomGlitchEffect() {
+            const teamText = document.querySelector('.team-text');
+            
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    // Simpan teks asli
+                    const originalText = teamText.textContent;
+                    
+                    // Ubah sementara ke karakter acak
+                    let glitchText = '';
+                    for (let i = 0; i < originalText.length; i++) {
+                        if (Math.random() > 0.3) {
+                            glitchText += originalText[i];
+                        } else {
+                            // Karakter glitch
+                            const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`';
+                            glitchText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                        }
+                    }
+                    
+                    teamText.textContent = glitchText;
+                    
+                    // Kembali ke teks asli setelah delay
+                    setTimeout(() => {
+                        teamText.textContent = originalText;
+                    }, 100);
+                }
+            }, 2000);
+        }
+        
+        // Inisialisasi saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            // Tunggu sedikit sebelum memutar audio
+            setTimeout(playAudio, 800);
+            
+            // Inisialisasi efek TV noise
+            randomTVNoise();
+            
+            // Mulai efek ketik
+            typeWriterEffect();
+            
+            // Mulai efek glitch
+            setTimeout(randomGlitchEffect, 4000);
+        });
+        
+        // Fallback untuk autoplay audio
+        document.addEventListener('click', function() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) {
+                audio.play().catch(e => console.log("Audio masih diblokir"));
+            }
+        });
+    </script>
+</body>
+</html>
